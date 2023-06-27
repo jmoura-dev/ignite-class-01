@@ -1,4 +1,5 @@
 import { Header } from "./components/Header";
+import { Post } from "./components/Post";
 
 import styles from './App.module.css';
 
@@ -14,15 +15,11 @@ export function App() {
         <Sidebar />
 
         <main>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        Quos, optio, dolorum ipsam illo facilis, assumenda sit neque 
-        reiciendis velit vel similique minima molestiae. Ducimus doloribus
-        hic libero commodi? Soluta, optio?
-        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-        Quos, optio, dolorum ipsam illo facilis, assumenda sit neque 
-        reiciendis velit vel similique minima molestiae. Ducimus doloribus
-        hic libero commodi? Soluta, optio?
+        <Post />
+        
+        <Post />
         </main>
+        
       </div>
     </div>
   )
