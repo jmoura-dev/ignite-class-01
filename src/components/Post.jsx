@@ -4,8 +4,13 @@ import ptBR from 'date-fns/locale/pt-BR';
 import styles from './Post.module.css';
 import { Comment } from './Comment';
 import { Avatar } from './Avatar';
+import { useState } from 'react';
 
 export function Post ({ author, content, publishedAt }) {
+  const [comments, setComments] = useState([
+    'Post muito bacana, hein?!'
+  ])
+
   const publishedDateFormatted = format(publishedAt, "dd 'de' LLLL 'ás' HH:mm'h'", {
     locale: ptBR,
   })
@@ -13,6 +18,12 @@ export function Post ({ author, content, publishedAt }) {
   const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
     locale: ptBR,
   })
+
+  function handleAddNewComment() {
+    event.preventDefault();
+
+    setComments([...comments, comments.length ++])
+  }
 
   return(
     <article className={styles.post}>
@@ -31,17 +42,16 @@ export function Post ({ author, content, publishedAt }) {
       </header>
 
       <div className={styles.content}>
-        <p>Fala galeraa 👋</p>
-        <p>Acabei de subir mais um projeto no meu portifa. É um projeto que fiz no NLW Return, evento da Rocketseat. O nome do projeto é DoctorCare 🚀</p>
-        <p><a href="https://github.com/jmoura-dev" target='_blank' rel="noreferrer">👉 github/jmoura-dev/repos</a></p>
-        <p>
-          <a>#novoprojeto</a>{' '}
-          <a>#nlw</a>{' '}
-          <a>#rocketseat</a>
-        </p>
+        {content.map(item => {
+          if (item.type === 'paragraph') {
+            return <p>{item.content}</p>
+          } else if (item.type === 'link') {
+            return <p><a>{item.content}</a></p>
+          }
+        })}
       </div>
 
-      <form className={styles.commentForm}>
+      <form onSubmit={handleAddNewComment} className={styles.commentForm}>
         <strong>Deixe seu feedback</strong>
 
         <textarea 
@@ -54,9 +64,11 @@ export function Post ({ author, content, publishedAt }) {
       </form>
 
       <div className={styles.commentList}>
-        <Comment />
-        <Comment />
-        <Comment />
+        {
+          comments.map(comment => {
+            return <Comment content={comment}/>
+          })
+        }
       </div>
     </article>
   )
